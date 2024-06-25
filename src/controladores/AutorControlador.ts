@@ -1,10 +1,24 @@
 import { Request, Response } from "express";
 import { autores } from "../bancodedados";
 
+export default class AutorControlador {
+  listar(req: Request, res: Response) {
+    return res.json(autores);
+  }
 
-export default class AutorControlador{
+  detalhar(req: Request, res: Response) {
+    const { id } = req.params;
 
-    listar(req:Request, res:Response){
-        return res.json(autores)
+    const autor = autores.find((elemento) => {
+      return elemento.id === id;
+    });
+
+    if (!autor) {
+      return res.status(404).json({
+        mensagem: "Autor não encontrado!",
+      });
     }
+
+    return res.json(autor);
+  }
 }
